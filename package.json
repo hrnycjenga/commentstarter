@@ -1,0 +1,26 @@
+{
+  "name": "comments-service",
+  "version": "1.0.0",
+  "description": "FEC comment service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hr-team-jacob/comments-service.git"
+  },
+  "author": "Jeff LaRocque",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hr-team-jacob/comments-service/issues"
+  },
+  "homepage": "https://github.com/hr-team-jacob/comments-service#readme",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
+  }
+}
