@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/hr-team-jacob/comments-service#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "faker": "^4.1.0",
+    "path": "^0.12.7",
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
