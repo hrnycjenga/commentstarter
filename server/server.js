@@ -38,13 +38,30 @@ app.post('/:projId', (req, res) => {
   let date = new Date().toLocaleString();
   let avatar = faker.image.cats();
   let text = req.body.text;
-  console.log(text);
   
   db.run(`INSERT INTO messages (username, posted_at, avatar_url, body, proj_id)
   VALUES (?, ?, ?, ?, ?)`, [name, date, avatar, text, projId], (err, data) => {
     if (err) {
       res.sendStatus(500)
     } else {
+      res.sendStatus(200)
+    }
+  })
+})
+
+app.post('/:projId/:messageId', (req, res) => {
+  let messageId = req.params.messageId
+  let name = faker.name.findName();
+  let date = new Date().toLocaleString();
+  let avatar = faker.image.cats();
+  let text = req.body.text;
+  
+  db.run(`INSERT INTO replies (username, posted_at, avatar_url, body, reply_to)
+  VALUES (?, ?, ?, ?, ?)`, [name, date, avatar, text, messageId], (err, data) => {
+    if (err) {
+      res.sendStatus(500)
+    } else {
+      console.log(data)
       res.sendStatus(200)
     }
   })
