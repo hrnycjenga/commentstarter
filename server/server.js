@@ -5,7 +5,6 @@ const parser = require('body-parser');
 const faker = require('faker');
 const sqlite3 = require('sqlite3').verbose();
 const dbPath = path.resolve(__dirname, '../db/comments.db')
-console.log(dbPath);
 
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
@@ -14,13 +13,14 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 app.use(parser.json());
+app.use('/:projId', express.static(path.join(__dirname, '/../client/dist')))
 
-let port = 3000
+let port = 3011
 app.listen(port, () => {
     console.log(`app is listening on port ${port}`)
 })
 
-app.get('/:projId', (req, res) => {
+app.get('/messages/:projId', (req, res) => {
   let projId = req.params.projId
   db.all(`SELECT * FROM messages WHERE proj_id = ${projId}`, (err, data) => {
     if (err) {
@@ -32,7 +32,7 @@ app.get('/:projId', (req, res) => {
   })
 })
 
-app.post('/:projId', (req, res) => {
+app.post('/messages/:projId', (req, res) => {
   let projId = req.params.projId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
@@ -49,7 +49,7 @@ app.post('/:projId', (req, res) => {
   })
 })
 
-app.post('/:projId/:messageId', (req, res) => {
+app.post('/messages/:projId/:messageId', (req, res) => {
   let messageId = req.params.messageId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
