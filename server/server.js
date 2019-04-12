@@ -20,7 +20,7 @@ app.listen(port, () => {
     console.log(`app is listening on port ${port}`)
 })
 
-app.get('/messages/:projId', (req, res) => {
+app.get('/:projId/messages', (req, res) => {
   let projId = req.params.projId
   db.all(`SELECT * FROM messages WHERE proj_id = ${projId}`, (err, data) => {
     if (err) {
@@ -32,13 +32,23 @@ app.get('/messages/:projId', (req, res) => {
   })
 })
 
-app.post('/messages/:projId', (req, res) => {
+app.get('/:projId/new', (req, res) => {
+  db.get(`SELECT * FROM messages ORDER BY id DESC LIMIT 1;`, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else {
+      res.send(data);
+    }
+  })
+})
+
+app.post('/:projId/messages', (req, res) => {
   let projId = req.params.projId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
-  let avatar = faker.image.cats();
+  let avatar = faker.internet.avatar();
   let text = req.body.text;
-  
   db.run(`INSERT INTO messages (username, posted_at, avatar_url, body, proj_id)
   VALUES (?, ?, ?, ?, ?)`, [name, date, avatar, text, projId], (err, data) => {
     if (err) {
@@ -49,7 +59,7 @@ app.post('/messages/:projId', (req, res) => {
   })
 })
 
-app.post('/messages/:projId/:messageId', (req, res) => {
+app.post('/:projId/messages/:messageId', (req, res) => {
   let messageId = req.params.messageId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
@@ -61,7 +71,6 @@ app.post('/messages/:projId/:messageId', (req, res) => {
     if (err) {
       res.sendStatus(500)
     } else {
-      console.log(data)
       res.sendStatus(200)
     }
   })

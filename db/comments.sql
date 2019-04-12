@@ -15,8 +15,3 @@ CREATE TABLE replies (
   body VARCHAR(250),
   reply_to INTEGER
 );
-
--- CREATE TABLE projects (
---   id INTEGER PRIMARY KEY,
---   proj_name VARCHAR(30)
--- );

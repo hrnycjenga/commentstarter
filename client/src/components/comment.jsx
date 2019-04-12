@@ -10,9 +10,9 @@ class Comment extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getReplies();
-  }
+  // componentDidMount() {
+  //   this.getReplies();
+  // }
 
   getReplies() {
     const path = window.location.pathname;
