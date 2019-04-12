@@ -16,7 +16,7 @@ const comments = () => {
     data.push({
       username: faker.name.findName(),
       postedAt: faker.date.recent(10),
-      avatarUrl: faker.image.cats(),
+      avatarUrl: faker.internet.avatar(),
       body: faker.lorem.sentences(faker.random.number({min:1, max:7})),
       projId: faker.random.number({min:1, max:100})
     })
@@ -30,22 +30,13 @@ const replies = () => {
     data.push({
       username: faker.name.findName(),
       postedAt: faker.date.recent(10),
-      avatarUrl: faker.image.cats(),
+      avatarUrl: faker.internet.avatar(),
       body: faker.lorem.sentences(faker.random.number({min:1, max:7})),
       replyTo: faker.random.number({min:1, max:600})
     })
   }
   return data;
 }
-
-// const projects = () => {
-//   let data = [];
-//   while (data.length <= 100) {
-//     data.push({
-//       projName: faker.commerce.productName()
-//     })
-//   }
-// }
 
 comments().forEach( comment => {
   db.run(`INSERT INTO MESSAGES (username, posted_at, avatar_url, body, proj_id) 

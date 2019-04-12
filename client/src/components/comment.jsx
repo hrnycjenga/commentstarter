@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import Reply from "./reply.jsx"
+import Reply from "./reply.jsx";
 
 class Comment extends React.Component {
   constructor(props) {
@@ -11,24 +11,28 @@ class Comment extends React.Component {
   }
 
   componentDidMount() {
-    this.getReplies()
+    this.getReplies();
   }
 
   getReplies() {
-    const path = window.location.pathname
+    const path = window.location.pathname;
     axios
       .get(`messages${path}`)
-      .then(({data}) => {
-        this.setState({replies: data})
+      .then(({ data }) => {
+        this.setState({ replies: data });
       })
-      .catch((err) => console.log(err))
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div className="comment">
         <div className="avatar">
-          <img className="media-object" src={this.props.comment.avatar_url} alt=""/>
+          <img
+            className="media-object"
+            src={this.props.comment.avatar_url}
+            alt=""
+          />
         </div>
         <div className="user-name">{this.props.comment.username}</div>
         <div className="timestamp">{this.props.comment.posted_at}</div>
