@@ -80,12 +80,12 @@ app.post('/:projId/messages', (req, res) => {
 })
 
 
-
-app.post('/:projId/messages/:messageId', (req, res) => {
+//post reply to comment
+app.post('/:projId/reply/:messageId', (req, res) => {
   let messageId = req.params.messageId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
-  let avatar = faker.image.cats();
+  let avatar = faker.internet.avatar();
   let text = req.body.text;
   
   db.run(`INSERT INTO replies (username, posted_at, avatar_url, body, reply_to)
