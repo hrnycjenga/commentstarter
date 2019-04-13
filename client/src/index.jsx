@@ -10,21 +10,20 @@ class App extends React.Component {
     this.state = {
       comments: []
     }
-    this.getMessages = this.getMessages.bind(this)
+    this.getComments = this.getComments.bind(this)
     this.addComment = this.addComment.bind(this)
   }
 
   componentDidMount() {
-    this.getMessages()
+    this.getComments()
   }
 
-  getMessages() {
+  getComments() {
     const path = window.location.pathname
     axios
       .get(`${path}messages`)
       .then(({data}) => {
         this.setState({comments: data})
-        console.log('state at mount: ', this.state.comments)
       })
       .catch((err) => console.log(err))
   }
@@ -32,7 +31,6 @@ class App extends React.Component {
   addComment(comment) {
     let newState = this.state.comments.concat(comment)
     this.setState({comments: newState})
-    console.log('new state: ', this.state.comments)
   }
 
   render() {

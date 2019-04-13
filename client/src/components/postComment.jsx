@@ -20,7 +20,6 @@ class PostComment extends React.Component {
     event.preventDefault();
     const text = this.state.value
     const path = window.location.pathname;
-    console.log('text: ', text)
     axios.post(`${path}messages`, {
       text: text
     })
