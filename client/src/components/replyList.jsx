@@ -4,7 +4,7 @@ import Reply from './reply.jsx';
 var ReplyList = (props) => (
   <div className="reply-list">
     {props.replies.map((reply) => {
-      <Reply reply={reply}/> 
+     return (<Reply reply={reply}/> )
     }
       )}
   </div>
