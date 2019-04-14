@@ -38,8 +38,20 @@ app.get('/:projId/messages', (req, res) => {
 })
 
 // retrieve most recent comment
-app.get('/:projId/new', (req, res) => {
+app.get('/:projId/newmessage', (req, res) => {
   db.get(`SELECT * FROM messages ORDER BY id DESC LIMIT 1;`, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(404);
+    } else {
+      res.send(data);
+    }
+  })
+})
+
+//retrieve most recent reply
+app.get('/:projId/newreply', (req, res) => {
+  db.get(`SELECT * FROM replies ORDER BY id DESC LIMIT 1;`, (err, data) => {
     if (err) {
       console.log(err);
       res.sendStatus(404);
