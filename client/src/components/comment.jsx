@@ -9,6 +9,7 @@ class Comment extends React.Component {
     this.state = {
       replies: []
     };
+    this.addReply = this.addReply.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +25,11 @@ class Comment extends React.Component {
       })
       .catch(err => console.log(err));
   }
+  
+  addReply(reply) {
+    let newState = this.state.replies.concat(reply)
+    this.setState({replies: newState})
+  }
 
   render() {
     return (
@@ -38,7 +44,7 @@ class Comment extends React.Component {
         <div className="user-name">{this.props.comment.username}</div>
         <div className="timestamp">{this.props.comment.posted_at}</div>
         <div className="message">{this.props.comment.body}</div>
-        <div className="leaveReply" > <PostReply messageId={this.props.comment.id}/> </div>
+        <div className="leaveReply" > <PostReply messageId={this.props.comment.id} addReply={this.addReply}/> </div>
         <div className="reply"><ReplyList replies={this.state.replies}/></div>
       </div>
     );

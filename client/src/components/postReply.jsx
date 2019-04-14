@@ -24,7 +24,7 @@ class PostReply extends React.Component {
       text: text
     })
       .then(
-        axios.get(`${path}new`).then(({data}) => {
+        axios.get(`${path}newreply`).then(({data}) => {
           this.props.addReply(data)
         })
       )

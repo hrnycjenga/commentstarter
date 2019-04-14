@@ -24,7 +24,7 @@ class PostComment extends React.Component {
       text: text
     })
       .then(
-        axios.get(`${path}new`).then(({data}) => {
+        axios.get(`${path}newmessage`).then(({data}) => {
           this.props.addComment(data)
         })
       )
