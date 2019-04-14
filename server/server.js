@@ -20,6 +20,11 @@ app.listen(port, () => {
     console.log(`app is listening on port ${port}`)
 })
 
+app.get('/', (req, res) => {
+  res.send('No project page specified. Please go to a specific page to view its comments')
+})
+
+// retrieve comments
 app.get('/:projId/messages', (req, res) => {
   let projId = req.params.projId
   db.all(`SELECT * FROM messages WHERE proj_id = ${projId}`, (err, data) => {
@@ -32,6 +37,7 @@ app.get('/:projId/messages', (req, res) => {
   })
 })
 
+// retrieve most recent comment
 app.get('/:projId/new', (req, res) => {
   db.get(`SELECT * FROM messages ORDER BY id DESC LIMIT 1;`, (err, data) => {
     if (err) {
@@ -43,6 +49,20 @@ app.get('/:projId/new', (req, res) => {
   })
 })
 
+//retrieve replies to comment
+app.get('/:projId/:messageId/replies', (req, res) => {
+  let messageId = req.params.messageId;
+  db.all(`SELECT * FROM replies WHERE reply_to = ${messageId}`, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.sendStatus(500);
+    } else {
+      res.send(data);
+    }
+  })
+})
+
+// post new comment
 app.post('/:projId/messages', (req, res) => {
   let projId = req.params.projId
   let name = faker.name.findName();
@@ -59,11 +79,13 @@ app.post('/:projId/messages', (req, res) => {
   })
 })
 
-app.post('/:projId/messages/:messageId', (req, res) => {
+
+//post reply to comment
+app.post('/:projId/reply/:messageId', (req, res) => {
   let messageId = req.params.messageId
   let name = faker.name.findName();
   let date = new Date().toLocaleString();
-  let avatar = faker.image.cats();
+  let avatar = faker.internet.avatar();
   let text = req.body.text;
   
   db.run(`INSERT INTO replies (username, posted_at, avatar_url, body, reply_to)

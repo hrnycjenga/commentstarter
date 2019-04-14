@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import Reply from "./reply.jsx";
+import ReplyList from "./replyList.jsx";
+import PostReply from "./postReply.jsx";
 
 class Comment extends React.Component {
   constructor(props) {
@@ -10,14 +11,14 @@ class Comment extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.getReplies();
-  // }
+  componentDidMount() {
+    this.getReplies();
+  }
 
   getReplies() {
     const path = window.location.pathname;
     axios
-      .get(`messages${path}`)
+      .get(`${path}${this.props.id}/replies`)
       .then(({ data }) => {
         this.setState({ replies: data });
       })
@@ -37,7 +38,8 @@ class Comment extends React.Component {
         <div className="user-name">{this.props.comment.username}</div>
         <div className="timestamp">{this.props.comment.posted_at}</div>
         <div className="message">{this.props.comment.body}</div>
-        {/* <div className="reply"><Reply replies={this.state.replies}/></div> */}
+        <div className="leaveReply" > <PostReply messageId={this.props.comment.id}/> </div>
+        <div className="reply"><ReplyList replies={this.state.replies}/></div>
       </div>
     );
   }

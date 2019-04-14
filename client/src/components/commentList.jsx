@@ -7,7 +7,7 @@ var CommentList = props => {
       {props.comments.map(comment => {
         return (
           <div>
-            <Comment comment={comment} />
+            <Comment comment={comment} id={comment.id} />
           </div>
         );
       })}

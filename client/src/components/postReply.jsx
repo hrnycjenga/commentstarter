@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "axios";
 
-class PostComment extends React.Component {
+class PostReply extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'Post A Comment...'
+      value: 'Post A Reply...'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -20,12 +20,12 @@ class PostComment extends React.Component {
     event.preventDefault();
     const text = this.state.value
     const path = window.location.pathname;
-    axios.post(`${path}messages`, {
+    axios.post(`${path}reply/${this.props.messageId}`, {
       text: text
     })
       .then(
         axios.get(`${path}new`).then(({data}) => {
-          this.props.addComment(data)
+          this.props.addReply(data)
         })
       )
       .catch(err => {
@@ -39,10 +39,10 @@ class PostComment extends React.Component {
         <label>
           <textarea value={this.state.value} onChange={this.handleChange} />
         </label>
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Reply" />
       </form>
     );
   }
 }
 
-export default PostComment;
+export default PostReply;

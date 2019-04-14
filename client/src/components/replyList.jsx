@@ -1,11 +1,13 @@
 import React from "react";
 import Reply from './reply.jsx';
 
-var replyList = (props) => (
+var ReplyList = (props) => (
   <div className="reply-list">
-    {this.props.replies.map((reply) => {
-      <Reply reply={reply}/> 
+    {props.replies.map((reply) => {
+     return (<Reply reply={reply}/> )
     }
       )}
   </div>
 );
+
+export default ReplyList;
