@@ -9,6 +9,9 @@ const pgPort = process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
+const seedCount = 100000000;
+
+console.log(`🚀 Attempt to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 
 const pool = new Pool({
 	user: pgUser,
@@ -34,7 +37,7 @@ pool.connect().then((client) => {
 
 	const rs = new Readable({
 		read() {
-			if (count >= 1000000) {
+			if (count >= seedCount) {
 				rs.push(null);
 			} else {
 				randomNum = Math.random() * 10;
@@ -71,44 +74,6 @@ pool.connect().then((client) => {
 			}
 		}
 	});
-
-	// rs._read = () => {
-	// 	if (count >= 1000000) {
-	// 		rs.push(null);
-	// 	} else {
-	// 		randomNum = Math.random() * 10;
-	// 		authorId = Math.floor(Math.random() * 20000000 + 1);
-
-	// 		if (randomNum > 5 && count > 0) {
-	// 			projectId = lastProjectId;
-	// 			parentId = lastCommentId;
-	// 			randomDate = new Date(
-	// 				currentTime.getTime() - Math.random() * (currentTime.getTime() - lastDate.getTime())
-	// 			);
-	// 		} else {
-	// 			projectId = Math.floor(Math.random() * 10000000 + 1);
-	// 			lastProjectId = projectId;
-	// 			randomDate = faker.date.recent(90);
-	// 			lastDate = randomDate;
-	// 			parentId = 0;
-	// 			lastCommentId = count + 1;
-	// 		}
-
-	// 		rs.push(
-	// 			projectId +
-	// 				'\t' +
-	// 				parentId +
-	// 				'\t' +
-	// 				authorId +
-	// 				'\t' +
-	// 				faker.lorem.sentences(faker.random.number({ min: 1, max: 7 })) +
-	// 				'\t' +
-	// 				randomDate.toUTCString() +
-	// 				'\n'
-	// 		);
-	// 		count++;
-	// 	}
-	// };
 
 	let onError = (strErr) => {
 		console.error('Something went wrong:', strErr);

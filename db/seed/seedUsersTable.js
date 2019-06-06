@@ -9,6 +9,9 @@ const pgPort = process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
+const seedCount = 20000000;
+
+console.log(`🚀 Attempt to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 
 const pool = new Pool({
 	user: pgUser,
@@ -27,7 +30,7 @@ pool.connect().then((client) => {
 	const stream = client.query(copyFrom('COPY users (first_name,last_name,email,avatar_url,created_at) FROM STDIN'));
 	const rs = new Readable({
 		read() {
-			if (count >= 20000000) {
+			if (count >= seedCount) {
 				rs.push(null);
 			} else {
 				rs.push(
@@ -49,25 +52,6 @@ pool.connect().then((client) => {
 
 	let count = 0;
 
-	// rs._read = () => {
-	// 	if (count >= 20000000) {
-	// 		rs.push(null);
-	// 	} else {
-	// 		rs.push(
-	// 			faker.name.firstName() +
-	// 				'\t' +
-	// 				faker.name.lastName() +
-	// 				'\t' +
-	// 				faker.internet.email() +
-	// 				'\t' +
-	// 				faker.internet.avatar() +
-	// 				'\t' +
-	// 				faker.date.recent(90).toUTCString() +
-	// 				'\n'
-	// 		);
-	// 		count++;
-	// 	}
-	// };
 	let onError = (strErr) => {
 		console.error('Something went wrong:', strErr);
 		done();

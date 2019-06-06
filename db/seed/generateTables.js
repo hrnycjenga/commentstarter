@@ -9,7 +9,7 @@ const pgPort = process.env.PGPORT || 5432;
 
 const createTables = fs.readFileSync(path.join(__dirname, 'init_tables.sql')).toString();
 
-console.log(`🚀 Attempt to connect to database ${pgDatabase} at: ${pgHost}:${pgPort} as ${pgUser}`);
+console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} as ${pgUser}`);
 
 const pool = new Pool({
 	user: pgUser,
@@ -34,4 +34,7 @@ function generateTables() {
 	});
 }
 
-generateTables().then(process.exit);
+generateTables().then(process.exit).catch((e) => {
+	console.log(e);
+	process.exit;
+});
