@@ -34,7 +34,7 @@ const seedDb = () => {
 
 	pool.connect().then((client) => {
 		let done = () => {
-			console.log(`Iteration #${currentIteration} complete 🎊`);
+			console.log(`   Iteration #${currentIteration} complete 🎊`);
 			client.release();
 			if (currentIteration < iterations) {
 				seedDb();
