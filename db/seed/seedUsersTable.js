@@ -9,7 +9,7 @@ const pgPort = process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
-const seedCount = 20000000;
+const seedCount = process.env.SEEDCOUNT || 20000000;
 
 console.log(`🚀 Attempt to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 
