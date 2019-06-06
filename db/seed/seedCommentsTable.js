@@ -13,6 +13,7 @@ const seedCount = process.env.SEEDCOUNT || 1000000;
 const iterations = process.env.ITERATIONS || 1;
 let startingRow = process.env.START_ROW || 0;
 let currentIteration = 0;
+let endRow = startingRow + seedCount;
 
 console.log(
 	`🚀 Attempt to seed ${seedCount} records x ${iterations} times to database ${pgDatabase} at ${pgHost}:${pgPort}`
@@ -29,7 +30,6 @@ const pool = new Pool({
 console.time('seedTime');
 const seedDb = () => {
 	currentIteration++;
-	const endRow = startingRow + seedCount;
 
 	console.log(`✈️  Iteration #${currentIteration} start`);
 
@@ -39,6 +39,7 @@ const seedDb = () => {
 			client.release();
 			if (currentIteration < iterations) {
 				startingRow += seedCount;
+				endRow += seedCount;
 				seedDb();
 			}
 		};
