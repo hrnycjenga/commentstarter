@@ -61,7 +61,7 @@ const seedDb = () => {
 					randomNum = Math.random() * 10;
 					authorId = Math.floor(Math.random() * 20000000 + 1);
 
-					if (randomNum > 5 && count > 0) {
+					if (randomNum > 5 && count > startingRow) {
 						projectId = lastProjectId;
 						parentId = lastCommentId;
 						randomDate = new Date(
