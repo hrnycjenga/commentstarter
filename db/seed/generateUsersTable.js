@@ -7,7 +7,7 @@ const pgDatabase = process.env.PGDATABASE || 'punch';
 const pgPassword = process.env.PGPASSWORD || 'password';
 const pgPort = process.env.PGPORT || 5432;
 
-const createTables = fs.readFileSync(path.join(__dirname, 'init_tables.sql')).toString();
+const createTables = fs.readFileSync(path.join(__dirname, 'init_users_table.sql')).toString();
 
 console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} as ${pgUser}`);
 
@@ -25,7 +25,7 @@ function generateTables() {
 			.query(createTables)
 			.then(() => {
 				client.release();
-				return console.log('Table Generated!');
+				return console.log('Users table generated / reset!');
 			})
 			.catch((e) => {
 				client.release();
