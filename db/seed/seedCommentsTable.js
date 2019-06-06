@@ -13,7 +13,9 @@ const seedCount = process.env.SEEDCOUNT || 1000000;
 const iterations = process.env.ITERATIONS || 1;
 let currentIteration = 0;
 
-console.log(`🚀 Attempt to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`);
+console.log(
+	`🚀 Attempt to seed ${seedCount} records x ${iterations} times to database ${pgDatabase} at ${pgHost}:${pgPort}`
+);
 
 const pool = new Pool({
 	user: pgUser,
