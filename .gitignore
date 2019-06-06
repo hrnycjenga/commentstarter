@@ -24,4 +24,4 @@ coverage
 build/
 dist/bundle.js
 
-./vscode
+/.vscode

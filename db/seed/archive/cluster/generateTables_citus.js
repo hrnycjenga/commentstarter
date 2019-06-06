@@ -2,10 +2,10 @@ const fs = require('fs');
 const { Pool } = require('pg');
 const path = require('path');
 const pgHost = process.env.PGHOST || 'localhost';
-const pgUser = process.env.PGUSER || 'punchcomments';
-const pgDatabase = process.env.PGDATABASE || 'punch';
-const pgPassword = process.env.PGPASSWORD || 'password';
-const pgPort = process.env.PGPORT || 5432;
+const pgUser = process.env.PGUSER || 'postgres';
+const pgDatabase = process.env.PGDATABASE || 'postgres';
+const pgPassword = process.env.PGPASSWORD || '';
+const pgPort = process.env.PGPORT || 5433;
 
 const createTables = fs.readFileSync(path.join(__dirname, 'init_tables.sql')).toString();
 
@@ -23,7 +23,7 @@ function generateTables() {
 			.query(createTables)
 			.then(() => {
 				client.release();
-				return console.log('Table Generated!');
+				return console.log('Distributed table Generated!');
 			})
 			.catch((e) => {
 				client.release();

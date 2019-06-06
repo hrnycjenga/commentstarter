@@ -4,7 +4,6 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE "comments" (
   "id" SERIAL PRIMARY KEY,
   "project_id" int NOT NULL,
-  "parent_id" int NOT NULL,
   "author_id" int NOT NULL,
   "created_at" timestamp NOT NULL DEFAULT NOW(),
   "comment_body" varchar
@@ -18,3 +17,8 @@ CREATE TABLE "users" (
   "email" varchar(255),
   "created_at" timestamp NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE "comments" ADD FOREIGN KEY ("author_id") REFERENCES "users" ("id");
+
+SELECT create_distributed_table('comments', 'project_id');
+SELECT create_distributed_table('users', 'id');
