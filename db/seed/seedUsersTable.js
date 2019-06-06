@@ -30,11 +30,11 @@ console.time('seedTime');
 const seedDb = () => {
 	currentIteration++;
 
-	console.log(`✈️ Iteration #${currentIteration}`);
+	console.log(`✈️  Iteration #${currentIteration}`);
 
 	pool.connect().then((client) => {
 		let done = () => {
-			console.log('Stream ended');
+			console.log(`Iteration #${currentIteration} complete 🎊`);
 			client.release();
 			if (currentIteration < iterations) {
 				seedDb();
