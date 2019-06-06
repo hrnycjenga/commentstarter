@@ -9,9 +9,9 @@ const pgPort = process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
-const seedCount = process.env.SEEDCOUNT || 1000000;
-const iterations = process.env.ITERATIONS || 1;
-let startingRow = process.env.START_ROW || 0;
+const seedCount = +process.env.SEEDCOUNT || 1000000;
+const iterations = +process.env.ITERATIONS || 1;
+let startingRow = +process.env.START_ROW || 0;
 let currentIteration = 0;
 let endRow = startingRow + seedCount;
 
@@ -30,8 +30,11 @@ const pool = new Pool({
 console.time('seedTime');
 const seedDb = () => {
 	currentIteration++;
+	let count = startingRow;
+	let lastCommentId, parentId, authorId, projectId, lastProjectId, randomDate, lastDate, randomNum;
+	let currentTime = new Date();
 
-	console.log(`✈️  Iteration #${currentIteration} start`);
+	console.log(`✈️  Iteration #${currentIteration} start, starting with row ${startingRow} and ending row ${endRow}`);
 
 	pool.connect().then((client) => {
 		let done = () => {
@@ -44,15 +47,9 @@ const seedDb = () => {
 			}
 		};
 
-		let count = startingRow;
-
 		const stream = client.query(
 			copyFrom('COPY comments (project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
 		);
-
-		let lastCommentId, parentId, authorId, projectId, lastProjectId, randomDate, lastDate, randomNum;
-
-		let currentTime = new Date();
 
 		const rs = new Readable({
 			read() {
