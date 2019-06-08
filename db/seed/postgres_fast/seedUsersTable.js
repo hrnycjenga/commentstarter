@@ -26,66 +26,54 @@ const pool = new Pool({
 });
 
 console.time('seedTime');
+
 const seedDb = () => {
 	currentIteration++;
 
-	console.log(`✈️  Iteration #${currentIteration} start`);
+	console.log(`✈️  Iteration #${currentIteration}`);
 
 	pool.connect().then((client) => {
 		let done = () => {
-			console.log(`Iteration #${currentIteration} complete 🎊`);
+			console.log(`   Iteration #${currentIteration} complete 🎊`);
 			client.release();
 			if (currentIteration < iterations) {
 				seedDb();
+			} else {
+				running = false;
 			}
 		};
 
 		let count = 0;
 
 		const stream = client.query(
-			copyFrom('COPY comments (project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
+			copyFrom('COPY users (first_name,last_name,email,avatar_url,created_at) FROM STDIN')
 		);
-
-		let lastCommentId, parentId, authorId, projectId, lastProjectId, randomDate, lastDate, randomNum;
-
-		let currentTime = new Date();
-
 		const rs = new Readable({
 			read() {
 				if (count >= seedCount) {
 					rs.push(null);
 				} else {
-					randomNum = Math.random() * 10;
-					authorId = Math.floor(Math.random() * 20000000 + 1);
-
-					if (randomNum > 5 && count > 0) {
-						projectId = lastProjectId;
-						parentId = lastCommentId;
-						randomDate = new Date(
-							currentTime.getTime() - Math.random() * (currentTime.getTime() - lastDate.getTime())
+					if (count % 100000 === 0 && count > 0) {
+						const rss = process.memoryUsage().rss / 1024 / 1024;
+						console.log(
+							`🥅 Streamed ${count} records with memory usage at ${Math.round(rss * 100) / 100}MB`
 						);
-					} else {
-						projectId = Math.floor(Math.random() * 10000000 + 1);
-						lastProjectId = projectId;
-						randomDate = faker.date.recent(90);
-						lastDate = randomDate;
-						parentId = 0;
-						lastCommentId = count + 1;
 					}
-
-					rs.push(
-						projectId +
-							'\t' +
-							parentId +
-							'\t' +
-							authorId +
-							'\t' +
-							faker.lorem.sentences(faker.random.number({ min: 1, max: 7 })) +
-							'\t' +
-							randomDate.toUTCString() +
-							'\n'
-					);
 					count++;
+					setImmediate(function() {
+						rs.push(
+							faker.name.firstName() +
+								'\t' +
+								faker.name.lastName() +
+								'\t' +
+								faker.internet.email() +
+								'\t' +
+								faker.internet.avatar() +
+								'\t' +
+								faker.date.recent(90).toUTCString() +
+								'\n'
+						);
+					});
 				}
 			}
 		});
