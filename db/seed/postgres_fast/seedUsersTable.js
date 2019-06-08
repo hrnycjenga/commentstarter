@@ -12,7 +12,6 @@ const Readable = require('stream').Readable;
 const seedCount = process.env.SEEDCOUNT || 1000000;
 const iterations = process.env.ITERATIONS || 1;
 let currentIteration = 0;
-let running = true;
 
 console.log(
 	`🚀 Attempt to seed ${seedCount} records x ${iterations} times to database ${pgDatabase} at ${pgHost}:${pgPort}`

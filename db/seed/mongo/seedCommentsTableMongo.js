@@ -20,28 +20,50 @@ const seedTable = async function() {
 		console.log(`🌳 Attempt to seed ${seedCount} records x ${iterations} times`);
 
 		const db = await client.db(mongoDatabase);
-		let startingCount = await db.collection('users').countDocuments();
+		let startingCount = await db.collection('comments').countDocuments();
 
 		let count = startingCount;
+		let currentTime = new Date();
 
-		function performInsert() {
-			let users = [];
+		const performInsert = () => {
+			let comments = [];
 			currentIteration++;
 			console.log(`✈️  Iteration #${currentIteration}`);
+			let lastCommentId, parentId, authorId, projectId, lastProjectId, randomDate, lastDate, randomNum;
 
 			for (let i = seedCount; i--; ) {
 				count++;
-				users.push({
+
+				randomNum = Math.random() * 10;
+				authorId = Math.floor(Math.random() * 20000000 + 1);
+				commentBody = faker.lorem.sentences(faker.random.number({ min: 1, max: 7 }));
+
+				if (randomNum > 5 && count > startingCount + 1) {
+					projectId = lastProjectId;
+					parentId = lastCommentId;
+					randomDate = new Date(
+						currentTime.getTime() - Math.random() * (currentTime.getTime() - lastDate.getTime())
+					);
+				} else {
+					projectId = Math.floor(Math.random() * 10000000 + 1);
+					lastProjectId = projectId;
+					randomDate = faker.date.recent(90);
+					lastDate = randomDate;
+					parentId = 0;
+					lastCommentId = count;
+				}
+
+				comments.push({
 					_id: count,
-					firstName: faker.name.firstName(),
-					lastName: faker.name.lastName(),
-					email: faker.internet.email(),
-					avatar: faker.internet.avatar(),
-					created: faker.date.recent(90).toUTCString()
+					projectId,
+					parentId,
+					authorId,
+					commentBody,
+					created: randomDate.toUTCString()
 				});
 			}
 
-			db.collection('users').insertMany(users, (err, res) => {
+			return db.collection('comments').insertMany(comments, (err, res) => {
 				if (err) {
 					console.error(`🚫 Failed insertion with error: ${err}`);
 					client.close();
@@ -56,7 +78,7 @@ const seedTable = async function() {
 					}
 				}
 			});
-		}
+		};
 		return performInsert();
 	} catch (err) {
 		throw new Error(err);
