@@ -54,6 +54,12 @@ const seedDb = () => {
 				if (count >= seedCount) {
 					rs.push(null);
 				} else {
+					if (count % 100000 === 0 && count > 0) {
+						const rss = process.memoryUsage().rss / 1024 / 1024;
+						console.log(
+							`🥅 Streamed ${count} records with memory usage at ${Math.round(rss * 100) / 100}MB`
+						);
+					}
 					count++;
 					setImmediate(function() {
 						rs.push(
@@ -85,28 +91,6 @@ const seedDb = () => {
 	});
 };
 
-var rssMin = process.memoryUsage().rss / 1024 / 1024;
-var rssMax = rssMin;
-
-memlog = function() {
-	var rss = process.memoryUsage().rss / 1024 / 1024;
-	rssMin = Math.min(rss, rssMin);
-	rssMax = Math.max(rss, rssMax);
-	console.log(
-		'rss:' +
-			Math.round(rss * 100) / 100 +
-			'MB rssMin:' +
-			Math.round(rssMin * 100) / 100 +
-			'MB rssMax:' +
-			Math.round(rssMax * 100) / 100 +
-			'MB'
-	);
-	if (running) {
-		setTimeout(memlog, 1000);
-	}
-};
-
-memlog();
 seedDb();
 
 process.on('exit', () => {

@@ -6,6 +6,7 @@ const pgUser = process.env.PGUSER || 'punchcomments';
 const pgDatabase = process.env.PGDATABASE || 'punch';
 const pgPassword = process.env.PGPASSWORD || 'password';
 const pgPort = process.env.PGPORT || 5432;
+const logMemory = process.env.LOGMEMORY || true;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
@@ -13,8 +14,6 @@ const seedCount = +process.env.SEEDCOUNT || 1000000;
 let startingRow;
 let running = true;
 let client;
-
-console.log(`🚀 Attempt to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 
 const pool = new Pool({
 	user: pgUser,
@@ -48,10 +47,10 @@ const seedDb = () => {
 
 	const rs = new Readable({
 		read() {
-			if (count >= seedCount) {
+			if (count >= startingRow + seedCount) {
 				rs.push(null);
 			} else {
-				if (count % 100000 === 0) {
+				if (count % 100000 === 0 && count > startingRow) {
 					console.log(`🥅 Streamed ${count} records`);
 				}
 				randomNum = Math.random() * 10;
@@ -95,8 +94,6 @@ const seedDb = () => {
 	});
 
 	console.log(`✈️  Seeding starting with row ${startingRow}`);
-	// console.log('read hwm', rs.readableHighWaterMark);
-	// console.log('write hwm', stream.writableHighWaterMark);
 	rs.on('error', onError);
 	stream.on('error', onError);
 	stream.on('end', done);
@@ -128,15 +125,21 @@ const initialize = async () => {
 	try {
 		client = await pool.connect();
 		let result = await client.query('SELECT COUNT(*) FROM comments;');
-		startingRow = result.rows[0].count;
+		startingRow = +result.rows[0].count;
 	} catch (err) {
 		console.log(`Connection error: `, err);
 	}
 
+	console.log(
+		`🚀 Connected: attempting to seed ${seedCount} records to database ${pgDatabase} at ${pgHost}:${pgPort}`
+	);
 	seedDb();
 };
 
-memlog();
+if (logMemory) {
+	memlog();
+}
+
 initialize();
 
 process.on('exit', () => {
