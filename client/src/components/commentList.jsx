@@ -1,5 +1,5 @@
 import React from 'react';
-import Comment from './comment.jsx';
+import TopLevelComment from './TopLevelComment.jsx';
 
 var CommentList = (props) => {
 	const topLevelComments = props.comments.filter((comment) => comment.parent_id === 0);
@@ -9,11 +9,7 @@ var CommentList = (props) => {
 			{topLevelComments.map((comment) => {
 				const replies = props.comments.filter((comment) => comment.parent_id === comment.id);
 
-				return (
-					<div>
-						<Comment key={comment.id} comment={comment} replies={replies} />
-					</div>
-				);
+				return <TopLevelComment key={comment.id} comment={comment} replies={replies} />;
 			})}
 		</div>
 	);
