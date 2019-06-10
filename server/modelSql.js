@@ -18,6 +18,7 @@ const queryMessages = async (projectId) => {
 	let result, client;
 
 	try {
+		console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 		client = await pool.connect();
 
 		result = await client.query(query);
