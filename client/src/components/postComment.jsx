@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Form, Button } from 'semantic-ui-react';
 
 class PostComment extends React.Component {
 	constructor(props) {

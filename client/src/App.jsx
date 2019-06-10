@@ -2,14 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import CommentList from './components/commentList.jsx';
 import PostComment from './components/postComment.jsx';
-import { Comment, Header, Form, Button } from 'semantic-ui-react';
+import { Comment, Header } from 'semantic-ui-react';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			comments: [],
-			replies: []
+			comments: []
 		};
 		this.getComments = this.getComments.bind(this);
 		this.addComment = this.addComment.bind(this);

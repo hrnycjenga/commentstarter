@@ -15,48 +15,49 @@ const pool = new Pool({
 
 const queryMessages = async (projectId) => {
 	const query = `SELECT * FROM comments c INNER JOIN users u ON c.author_id = u.id WHERE c.project_id = ${projectId}`;
-	let result;
+	let result, client;
 
 	try {
-		const client = await pool.connect();
+		client = await pool.connect();
 
 		result = await client.query(query);
 	} catch (err) {
 		throw err;
 	}
 
+	client.release();
 	return result.rows;
 };
 
 const queryReplies = async (messageId) => {
 	const query = `SELECT * FROM comments c INNER JOIN users u ON c.author_id = u.id WHERE c.id = ${messageId}`;
-
-	let result;
+	let result, client;
 
 	try {
-		const client = await pool.connect();
+		client = await pool.connect();
 
 		result = await client.query(query);
 	} catch (err) {
 		throw err;
 	}
 
+	client.release();
 	return result.rows;
 };
 
 const queryUserMessages = async (userId) => {
 	const query = `SELECT * FROM comments WHERE author_id = ${userId}`;
-
-	let result;
+	let result, client;
 
 	try {
-		const client = await pool.connect();
+		client = await pool.connect();
 
 		result = await client.query(query);
 	} catch (err) {
 		throw err;
 	}
 
+	client.release();
 	return result.rows;
 };
 
