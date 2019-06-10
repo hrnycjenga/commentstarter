@@ -1,3 +1,4 @@
+const { Pool } = require('pg');
 const pgHost = process.env.PGHOST || 'localhost';
 const pgUser = process.env.PGUSER || 'punchcomments';
 const pgDatabase = process.env.PGDATABASE || 'punch';
@@ -27,7 +28,7 @@ const queryMessages = async (projectId) => {
 	return result.rows;
 };
 
-const getRepliesToComment = async (messageId) => {
+const queryReplies = async (messageId) => {
 	const query = `SELECT * FROM comments c INNER JOIN users u ON c.author_id = u.id WHERE c.id = ${messageId}`;
 
 	let result;
@@ -43,7 +44,7 @@ const getRepliesToComment = async (messageId) => {
 	return result.rows;
 };
 
-const getUserMessages = async (userId) => {
+const queryUserMessages = async (userId) => {
 	const query = `SELECT * FROM comments WHERE author_id = ${userId}`;
 
 	let result;
@@ -61,6 +62,6 @@ const getUserMessages = async (userId) => {
 
 module.exports = {
 	queryMessages,
-	getRepliesToComment,
-	getUserMessages
+	queryReplies,
+	queryUserMessages
 };

@@ -1,15 +1,17 @@
-import React from "react";
+import React from 'react';
 
-var Reply = (props) => (
-  <div className="comment">
-    <div className="avatar">
-      <img className="media-object" src={props.reply.avatar_url} alt=""/>
-    </div>
-    <div>reply</div>
-    <div className="user-name">{props.reply.username}</div>
-    <div className="timestamp">{props.reply.posted_at}</div>
-    <div className="message">{props.reply.body}</div>
-  </div>
+var Reply = ({ reply }) => (
+	<div className="comment">
+		<div className="avatar">
+			<img className="media-object" src={reply.avatar_url} alt="" />
+		</div>
+		<div>reply</div>
+		<div className="user-name">
+			{reply.first_name} {reply.last_name}
+		</div>
+		<div className="timestamp">{reply.created_at}</div>
+		<div className="message">{reply.comment_body}</div>
+	</div>
 );
 
 export default Reply;

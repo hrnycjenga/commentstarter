@@ -11,6 +11,8 @@ const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
 const seedCount = process.env.SEEDCOUNT || 1000000;
 const iterations = process.env.ITERATIONS || 1;
+const logMemory = process.env.LOGMEMORY || false;
+
 let currentIteration = 0;
 
 console.log(
@@ -53,7 +55,7 @@ const seedDb = () => {
 				if (count >= seedCount) {
 					rs.push(null);
 				} else {
-					if (count % 100000 === 0 && count > 0) {
+					if (logMemory && count % 100000 === 0 && count > 0) {
 						const rss = process.memoryUsage().rss / 1024 / 1024;
 						console.log(
 							`🥅 Streamed ${count} records with memory usage at ${Math.round(rss * 100) / 100}MB`

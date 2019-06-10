@@ -1,5 +1,6 @@
 const path = require('path');
 const model = require(path.resolve(__dirname, 'modelSql.js'));
+// const model = require(path.resolve(__dirname, 'modelMongo.js'));
 // const mongoModel = require(path.resolve(__dirname, 'modelMongo.js'));
 // const dbType = process.env.DBTYPE || 'sql';
 

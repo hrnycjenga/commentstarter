@@ -8,12 +8,9 @@ app.use(parser.json());
 app.use('/:projId', express.static(path.join(__dirname, '/../client/dist')));
 
 let port = 3011;
+
+app.use('/', router);
+
 app.listen(port, () => {
 	console.log(`✅ Express server is listening on port ${port}`);
 });
-
-app.get('/', (req, res) => {
-	res.send('No project page specified. Please go to a specific page to view its comments');
-});
-
-app.use('*', router);
