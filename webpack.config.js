@@ -27,14 +27,16 @@ module.exports = {
 				loader: require.resolve('url-loader'),
 				options: {
 					limit: 10000,
-					name: 'static/[name].[hash:8].[ext]'
+					name: 'static/[name].[ext]',
+					publicPath: '/'
 				}
 			},
 			{
 				test: [ /\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/ ],
 				loader: require.resolve('file-loader'),
 				options: {
-					name: '/static/[name].[hash:8].[ext]'
+					name: 'static/[name].[ext]',
+					publicPath: '/'
 				}
 			}
 		]
