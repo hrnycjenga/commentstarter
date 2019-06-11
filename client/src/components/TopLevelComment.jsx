@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Comment } from 'semantic-ui-react';
 import Reply from './reply.jsx';
+import ReplyForm from './ReplyForm.jsx';
 
 const TopLevelComment = ({ comment, replies }) => {
+	const [ showReplyForm, setShowReplyForm ] = useState(false);
+	const [ replyFormText, setReplyFormText ] = useState('');
+
+	const handleFormChange = (e) => {
+		setReplyFormText(e.target.value);
+	};
+
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+
+		console.log('Submitted reply with text: ', replyFormText);
+	};
+
 	return (
 		<Comment.Group size="large">
 			<Comment>
@@ -16,8 +30,23 @@ const TopLevelComment = ({ comment, replies }) => {
 					</Comment.Metadata>
 					<Comment.Text>{comment.comment_body}</Comment.Text>
 					<Comment.Actions>
-						<Comment.Action>Reply</Comment.Action>
+						<Comment.Action
+							onClick={() => {
+								setShowReplyForm(!showReplyForm);
+							}}
+						>
+							Reply
+						</Comment.Action>
 					</Comment.Actions>
+					{showReplyForm ? (
+						<ReplyForm
+							replyFormText={replyFormText}
+							handleFormChange={handleFormChange}
+							handleFormSubmit={handleFormSubmit}
+						/>
+					) : (
+						''
+					)}
 				</Comment.Content>
 				{replies.length > 0 && (
 					<Comment.Group size="small">

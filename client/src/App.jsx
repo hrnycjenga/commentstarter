@@ -19,8 +19,8 @@ class App extends React.Component {
 	}
 
 	getComments() {
-		const path = window.location.pathname;
-		const url = `http://3.219.86.63${path}messages`;
+		const path = window.location.pathname.replace(/\/$/, '');
+		const url = `http://3.219.86.63${path}/messages`;
 		axios
 			.get(url)
 			.then(({ data }) => {

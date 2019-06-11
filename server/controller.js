@@ -1,15 +1,12 @@
 const path = require('path');
 const model = require(path.resolve(__dirname, 'modelSql.js'));
-// const model = require(path.resolve(__dirname, 'modelMongo.js'));
-// const mongoModel = require(path.resolve(__dirname, 'modelMongo.js'));
-// const dbType = process.env.DBTYPE || 'sql';
 
 const getMessages = (req, res) => {
 	let projectId = req.params.projId;
 	model
 		.queryMessages(projectId)
 		.then((data) => {
-			res.json(data);
+			res.status(200).json(data);
 		})
 		.catch((err) => {
 			res.status(400).send();
@@ -22,7 +19,7 @@ const getRepliesToComment = (req, res) => {
 	model
 		.queryReplies(messageId)
 		.then((data) => {
-			res.json(data);
+			res.status(200).json(data);
 		})
 		.catch((err) => {
 			res.status(400).send();
@@ -35,7 +32,7 @@ const getUserMessages = (req, res) => {
 	model
 		.queryUserMessages(userId)
 		.then((data) => {
-			res.json(data);
+			res.status(200).json(data);
 		})
 		.catch((err) => {
 			res.status(400).send();
