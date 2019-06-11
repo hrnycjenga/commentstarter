@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import CommentList from './components/commentList.jsx';
 import PostComment from './components/postComment.jsx';
-import { Comment, Header } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 class App extends React.Component {
 	constructor(props) {
@@ -35,7 +35,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div style={{ maxWidth: '80%', margin: 'auto', display: 'inline-block', padding: '20px' }}>
 				<Header as="h3" dividing>
 					Comments
 				</Header>
