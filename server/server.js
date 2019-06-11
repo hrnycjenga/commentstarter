@@ -7,14 +7,16 @@ const cors = require('cors');
 
 app.use(parser.json());
 app.use(cors());
+app.get('/bundle.js', (req, res) => {
+	res.sendFile(path.join(__dirname, '/../client/dist/bundle.js'));
+});
+app.use('/static/', express.static(path.join(__dirname, '/../client/dist/static')));
 app.use('/:projId', express.static(path.join(__dirname, '/../client/dist')));
-app.use('/static', express.static(path.join(__dirname, '/../client/dist/static')));
 
 let port = 3011;
 
-// app.get('/static', path.join(__dirname, '/../client/dist/static'));
-
 app.use('/', router);
+
 
 app.listen(port, () => {
 	console.log(`✅ Express server is listening on port ${port}`);

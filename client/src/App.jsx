@@ -20,8 +20,9 @@ class App extends React.Component {
 
 	getComments() {
 		const path = window.location.pathname;
+		const url = `http://3.219.86.63${path}messages`;
 		axios
-			.get(`${path}messages`)
+			.get(url)
 			.then(({ data }) => {
 				this.setState({ comments: data });
 			})
