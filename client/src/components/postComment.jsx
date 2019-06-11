@@ -1,48 +1,25 @@
-import React from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Form, Button } from 'semantic-ui-react';
 
-class PostComment extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 'Post A Comment...'
-    };
+const PostComment = () => {
+	const [ commentFormText, setCommentFormText ] = useState('');
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+	const handleFormChange = (e) => {
+		setCommentFormText(e.target.value);
+	};
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
 
-  handleSubmit(event) {
-    event.preventDefault();
-    const text = this.state.value
-    const path = window.location.pathname;
-    axios.post(`${path}messages`, {
-      text: text
-    })
-      .then(
-        axios.get(`${path}newmessage`).then(({data}) => {
-          this.props.addComment(data)
-        })
-      )
-      .catch(err => {
-        console.log(err);
-      });
-  }
+		console.log(`Submitted message ${commentFormText}!`);
+	};
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          <textarea value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}
+	return (
+		<Form reply onSubmit={handleFormSubmit}>
+			<Form.TextArea value={commentFormText} onChange={handleFormChange} />
+			<Button content="Add Comment" labelPosition="left" icon="chevron right" />
+		</Form>
+	);
+};
 
 export default PostComment;

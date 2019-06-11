@@ -5,12 +5,13 @@ const pgHost = process.env.PGHOST || 'localhost';
 const pgUser = process.env.PGUSER || 'punchcomments';
 const pgDatabase = process.env.PGDATABASE || 'punch';
 const pgPassword = process.env.PGPASSWORD || 'password';
-const pgPort = process.env.PGPORT || 5432;
+const pgPort = +process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
 const seedCount = +process.env.SEEDCOUNT || 1000000;
 const iterations = +process.env.ITERATIONS || 1;
+const logMemory = process.env.LOGMEMORY || false;
 let startingRow = +process.env.START_ROW || 0;
 let currentIteration = 0;
 let endRow = startingRow + seedCount;
@@ -51,7 +52,7 @@ const seedDb = () => {
 		};
 
 		const stream = client.query(
-			copyFrom('COPY comments (project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
+			copyFrom('COPY comments (id, project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
 		);
 
 		const rs = new Readable({
@@ -59,7 +60,7 @@ const seedDb = () => {
 				if (count >= endRow) {
 					rs.push(null);
 				} else {
-					if (count % 100000 === 0 && count > startingRow) {
+					if (logMemory && count % 100000 === 0 && count > startingRow) {
 						const rss = process.memoryUsage().rss / 1024 / 1024;
 						console.log(
 							`🥅 Streamed ${count} records with memory usage at ${Math.round(rss * 100) / 100}MB`
@@ -85,7 +86,9 @@ const seedDb = () => {
 					count++;
 
 					rs.push(
-						projectId +
+						count +
+							'\t' +
+							projectId +
 							'\t' +
 							parentId +
 							'\t' +

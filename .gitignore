@@ -25,3 +25,5 @@ build/
 dist/bundle.js
 
 /.vscode
+
+.cache

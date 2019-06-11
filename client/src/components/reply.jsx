@@ -1,15 +1,19 @@
-import React from "react";
+import React from 'react';
+import { Comment } from 'semantic-ui-react';
 
-var Reply = (props) => (
-  <div className="comment">
-    <div className="avatar">
-      <img className="media-object" src={props.reply.avatar_url} alt=""/>
-    </div>
-    <div>reply</div>
-    <div className="user-name">{props.reply.username}</div>
-    <div className="timestamp">{props.reply.posted_at}</div>
-    <div className="message">{props.reply.body}</div>
-  </div>
+var Reply = ({ reply }) => (
+	<Comment>
+		<Comment.Avatar src={reply.avatar_url} />
+		<Comment.Content>
+			<Comment.Author as="a">
+				{reply.first_name} {reply.last_name}
+			</Comment.Author>
+			<Comment.Metadata>
+				<div>{reply.created_at}</div>
+			</Comment.Metadata>
+			<Comment.Text>{reply.comment_body}</Comment.Text>
+		</Comment.Content>
+	</Comment>
 );
 
 export default Reply;
