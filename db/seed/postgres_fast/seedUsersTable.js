@@ -5,15 +5,16 @@ const pgHost = process.env.PGHOST || 'localhost';
 const pgUser = process.env.PGUSER || 'punchcomments';
 const pgDatabase = process.env.PGDATABASE || 'punch';
 const pgPassword = process.env.PGPASSWORD || 'password';
-const pgPort = process.env.PGPORT || 5432;
+const pgPort = +process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
-const seedCount = process.env.SEEDCOUNT || 1000000;
-const iterations = process.env.ITERATIONS || 1;
+const seedCount = +process.env.SEEDCOUNT || 1000000;
+const iterations = +process.env.ITERATIONS || 1;
 const logMemory = process.env.LOGMEMORY || false;
-
+let startingRow = +process.env.START_ROW || 0;
 let currentIteration = 0;
+let endRow = startingRow + seedCount;
 
 console.log(
 	`🚀 Attempt to seed ${seedCount} records x ${iterations} times to database ${pgDatabase} at ${pgHost}:${pgPort}`
@@ -31,6 +32,7 @@ console.time('seedTime');
 
 const seedDb = () => {
 	currentIteration++;
+	let count = startingRow;
 
 	console.log(`✈️  Iteration #${currentIteration}`);
 
@@ -39,43 +41,44 @@ const seedDb = () => {
 			console.log(`   Iteration #${currentIteration} complete 🎊`);
 			client.release();
 			if (currentIteration < iterations) {
+				startingRow += seedCount;
+				endRow += seedCount;
 				seedDb();
 			} else {
 				running = false;
 			}
 		};
 
-		let count = 0;
-
 		const stream = client.query(
-			copyFrom('COPY users (first_name,last_name,email,avatar_url,created_at) FROM STDIN')
+			copyFrom('COPY users (id, first_name,last_name,email,avatar_url,created_at) FROM STDIN')
 		);
 		const rs = new Readable({
 			read() {
-				if (count >= seedCount) {
+				if (count >= endRow) {
 					rs.push(null);
 				} else {
-					if (logMemory && count % 100000 === 0 && count > 0) {
+					if (logMemory && count % 100000 === 0 && count > startingRow) {
 						const rss = process.memoryUsage().rss / 1024 / 1024;
 						console.log(
 							`🥅 Streamed ${count} records with memory usage at ${Math.round(rss * 100) / 100}MB`
 						);
 					}
 					count++;
-					setImmediate(function() {
-						rs.push(
+
+					rs.push(
+						count +
+							'\t' +
 							faker.name.firstName() +
-								'\t' +
-								faker.name.lastName() +
-								'\t' +
-								faker.internet.email() +
-								'\t' +
-								faker.internet.avatar() +
-								'\t' +
-								faker.date.recent(90).toUTCString() +
-								'\n'
-						);
-					});
+							'\t' +
+							faker.name.lastName() +
+							'\t' +
+							faker.internet.email() +
+							'\t' +
+							faker.internet.avatar() +
+							'\t' +
+							faker.date.recent(90).toUTCString() +
+							'\n'
+					);
 				}
 			}
 		});

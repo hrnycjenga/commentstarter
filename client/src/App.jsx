@@ -23,8 +23,6 @@ class App extends React.Component {
 		axios
 			.get(`${path}messages`)
 			.then(({ data }) => {
-				console.log('Output: App -> getComments -> data', data);
-
 				this.setState({ comments: data });
 			})
 			.catch((err) => console.log(err));
@@ -37,7 +35,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Comment.Group>
+			<div>
 				<Header as="h3" dividing>
 					Comments
 				</Header>
@@ -45,7 +43,7 @@ class App extends React.Component {
 				<CommentList comments={this.state.comments} />
 
 				<PostComment addComment={this.addComment} />
-			</Comment.Group>
+			</div>
 		);
 	}
 }

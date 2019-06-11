@@ -13,8 +13,7 @@ var CommentList = (props) => {
 				</Dimmer>
 			) : (
 				topLevelComments.map((comment) => {
-					const replies = props.comments.filter((comment) => comment.parent_id === comment.id);
-
+					const replies = props.comments.filter((row) => row.parent_id === comment.id);
 					return <TopLevelComment key={comment.id} comment={comment} replies={replies} />;
 				})
 			)}

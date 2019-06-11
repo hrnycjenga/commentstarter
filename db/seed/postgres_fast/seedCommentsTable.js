@@ -5,7 +5,7 @@ const pgHost = process.env.PGHOST || 'localhost';
 const pgUser = process.env.PGUSER || 'punchcomments';
 const pgDatabase = process.env.PGDATABASE || 'punch';
 const pgPassword = process.env.PGPASSWORD || 'password';
-const pgPort = process.env.PGPORT || 5432;
+const pgPort = +process.env.PGPORT || 5432;
 
 const copyFrom = require('pg-copy-streams').from;
 const Readable = require('stream').Readable;
@@ -52,7 +52,7 @@ const seedDb = () => {
 		};
 
 		const stream = client.query(
-			copyFrom('COPY comments (project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
+			copyFrom('COPY comments (id, project_id,parent_id,author_id,comment_body,created_at) FROM STDIN')
 		);
 
 		const rs = new Readable({
@@ -86,7 +86,9 @@ const seedDb = () => {
 					count++;
 
 					rs.push(
-						projectId +
+						count +
+							'\t' +
+							projectId +
 							'\t' +
 							parentId +
 							'\t' +

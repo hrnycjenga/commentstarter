@@ -14,7 +14,10 @@ const pool = new Pool({
 });
 
 const queryMessages = async (projectId) => {
-	const query = `SELECT * FROM comments c INNER JOIN users u ON c.author_id = u.id WHERE c.project_id = ${projectId}`;
+	const query = `SELECT c.id AS id, c.project_id AS project_id, c.parent_id AS parent_id, c.author_id AS author_id,
+								c.created_at AS created_at, c.comment_body AS comment_body, u.first_name AS first_name, u.last_name AS last_name,
+								u.avatar_url AS avatar_url, u.email AS email FROM comments c INNER JOIN users u ON c.author_id = u.id
+								WHERE c.project_id = ${projectId}`;
 	let result, client;
 
 	try {
