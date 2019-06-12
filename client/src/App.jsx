@@ -22,7 +22,7 @@ class App extends React.Component {
 	getComments() {
 		let url;
 		const path = window.location.pathname.replace(/\//g, '');
-		if (window.location.hostname === 'localhost') {
+		if (window.location.hostname !== 'localhost') {
 			url = `http://3.219.86.63/${path}/messages`;
 		} else {
 			url = `http://localhost/${path}/messages`;
@@ -38,10 +38,10 @@ class App extends React.Component {
 
 	addComment(body) {
 		let url;
-		if (window.location.hostname === 'localhost') {
-			url = 'http://localhost:3011/message';
-		} else {
+		if (window.location.hostname !== 'localhost') {
 			url = 'http://3.219.86.63/message';
+		} else {
+			url = 'http://localhost:3011/message';
 		}
 
 		fetch(url, {
