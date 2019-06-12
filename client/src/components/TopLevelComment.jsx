@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Comment } from 'semantic-ui-react';
 import Reply from './reply.jsx';
 import ReplyForm from './ReplyForm.jsx';
+import { format } from 'timeago.js';
 
 const TopLevelComment = ({ comment, replies }) => {
 	const [ showReplyForm, setShowReplyForm ] = useState(false);
@@ -26,7 +27,7 @@ const TopLevelComment = ({ comment, replies }) => {
 						{comment.first_name} {comment.last_name}
 					</Comment.Author>
 					<Comment.Metadata>
-						<div>{comment.created_at}</div>
+						<div>{format(comment.created_at)}</div>
 					</Comment.Metadata>
 					<Comment.Text>{comment.comment_body}</Comment.Text>
 					<Comment.Actions>

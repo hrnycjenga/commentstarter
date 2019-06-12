@@ -1,5 +1,6 @@
 import React from 'react';
 import { Comment } from 'semantic-ui-react';
+import { format } from 'timeago.js';
 
 var Reply = ({ reply }) => (
 	<Comment>
@@ -9,7 +10,7 @@ var Reply = ({ reply }) => (
 				{reply.first_name} {reply.last_name}
 			</Comment.Author>
 			<Comment.Metadata>
-				<div>{reply.created_at}</div>
+				<div>{format(reply.created_at)}</div>
 			</Comment.Metadata>
 			<Comment.Text>{reply.comment_body}</Comment.Text>
 		</Comment.Content>
