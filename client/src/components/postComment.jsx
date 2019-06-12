@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 
-const PostComment = () => {
+const PostComment = ({ addComment, project }) => {
 	const [ commentFormText, setCommentFormText ] = useState('');
 
 	const handleFormChange = (e) => {
@@ -11,7 +11,15 @@ const PostComment = () => {
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 
-		console.log(`Submitted message ${commentFormText}!`);
+		const body = {
+			project_id: project,
+			parent_id: 0,
+			author_id: 1,
+			created_at: new Date().toISOString(),
+			comment_body: commentFormText
+		};
+		setCommentFormText('');
+		addComment(body);
 	};
 
 	return (

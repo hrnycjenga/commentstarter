@@ -30,7 +30,7 @@ const rs = new Readable({
 						faker.name.lastName(),
 						faker.internet.email(),
 						faker.internet.avatar(),
-						faker.date.recent(90).toUTCString()
+						faker.date.recent(90).toISOString()
 					]
 				])
 			);

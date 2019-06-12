@@ -96,7 +96,7 @@ const seedDb = () => {
 							'\t' +
 							faker.lorem.sentences(faker.random.number({ min: 1, max: 7 })) +
 							'\t' +
-							randomDate.toUTCString() +
+							randomDate.toISOString() +
 							'\n'
 					);
 				}
