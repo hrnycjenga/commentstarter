@@ -28,7 +28,7 @@ const queryMessages = async (projectId) => {
 	}
 
 	client.release();
-	return result;
+	return result.rows;
 };
 
 const queryReplies = async (messageId) => {
@@ -74,10 +74,10 @@ const insertMessage = async ({ project_id, parent_id, author_id, created_at, com
 
 	try {
 		client = await pool.connect();
-
+		// console.log(`Connected to database: ${PGHOST}, attempt to post message: ${comment_body}`);
 		result = await client.query(query, [ project_id, parent_id, author_id, created_at, comment_body ]);
 	} catch (err) {
-		throw err;
+		return err;
 	}
 
 	client.release();

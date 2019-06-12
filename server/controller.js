@@ -3,6 +3,7 @@ const model = require(path.resolve(__dirname, 'modelSql.js'));
 
 const getMessages = (req, res) => {
 	let projectId = req.params.projId;
+
 	model
 		.queryMessages(projectId)
 		.then((data) => {
