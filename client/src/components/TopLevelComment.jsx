@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Comment } from 'semantic-ui-react';
-import Reply from './reply.jsx';
+import Reply from './Reply.jsx';
 import ReplyForm from './ReplyForm.jsx';
 import { format } from 'timeago.js';
 
-const TopLevelComment = ({ comment, replies }) => {
+const TopLevelComment = ({ comment, replies, project, addComment }) => {
 	const [ showReplyForm, setShowReplyForm ] = useState(false);
 	const [ replyFormText, setReplyFormText ] = useState('');
 
@@ -15,7 +15,16 @@ const TopLevelComment = ({ comment, replies }) => {
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 
-		console.log('Submitted reply with text: ', replyFormText);
+		const body = {
+			project_id: project,
+			parent_id: comment.id,
+			author_id: 1,
+			created_at: new Date().toISOString(),
+			comment_body: replyFormText
+		};
+		setReplyFormText('');
+		setShowReplyForm(false);
+		addComment(body);
 	};
 
 	return (
@@ -27,7 +36,7 @@ const TopLevelComment = ({ comment, replies }) => {
 						{comment.first_name} {comment.last_name}
 					</Comment.Author>
 					<Comment.Metadata>
-						<div>{format(comment.created_at)}</div>
+						<div>{format(new Date(comment.created_at))}</div>
 					</Comment.Metadata>
 					<Comment.Text>{comment.comment_body}</Comment.Text>
 					<Comment.Actions>

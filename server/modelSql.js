@@ -14,9 +14,7 @@ const pool = new Pool({
 });
 
 const queryMessages = async (projectId) => {
-	const query = `SELECT c.id AS id, c.project_id AS project_id, c.parent_id AS parent_id, c.author_id AS author_id,
-								c.created_at AS created_at, c.comment_body AS comment_body, u.first_name AS first_name, u.last_name AS last_name,
-								u.avatar_url AS avatar_url, u.email AS email FROM comments c INNER JOIN users u ON c.author_id = u.id
+	const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
 								WHERE c.project_id = ${projectId}`;
 	let result, client;
 
@@ -30,7 +28,7 @@ const queryMessages = async (projectId) => {
 	}
 
 	client.release();
-	return result.rows;
+	return result;
 };
 
 const queryReplies = async (messageId) => {
@@ -65,8 +63,30 @@ const queryUserMessages = async (userId) => {
 	return result.rows;
 };
 
+const insertMessage = async ({ project_id, parent_id, author_id, created_at, comment_body }) => {
+	const query = `WITH inserted AS (
+									INSERT INTO comments (project_id, parent_id, author_id, created_at, comment_body) 
+									VALUES ($1, $2, $3, $4, $5) RETURNING *
+								) SELECT inserted.*, users.first_name, users.last_name, users.avatar_url, users.email
+								FROM inserted INNER JOIN users
+								ON inserted.author_id = users.id`;
+	let result, client;
+
+	try {
+		client = await pool.connect();
+
+		result = await client.query(query, [ project_id, parent_id, author_id, created_at, comment_body ]);
+	} catch (err) {
+		throw err;
+	}
+
+	client.release();
+	return result.rows;
+};
+
 module.exports = {
 	queryMessages,
 	queryReplies,
-	queryUserMessages
+	queryUserMessages,
+	insertMessage
 };

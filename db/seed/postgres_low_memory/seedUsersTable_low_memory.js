@@ -62,7 +62,7 @@ const seedDb = () => {
 							'\t' +
 							faker.internet.avatar() +
 							'\t' +
-							faker.date.recent(90).toUTCString() +
+							faker.date.recent(90).toISOString() +
 							'\n'
 					);
 				});

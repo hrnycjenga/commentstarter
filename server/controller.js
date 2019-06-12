@@ -40,8 +40,21 @@ const getUserMessages = (req, res) => {
 		});
 };
 
+const addComment = (req, res) => {
+	model
+		.insertMessage(req.body)
+		.then((data) => {
+			res.status(200).json(data);
+		})
+		.catch((err) => {
+			res.status(400).send();
+			console.log(err);
+		});
+};
+
 module.exports = {
 	getMessages,
 	getRepliesToComment,
-	getUserMessages
+	getUserMessages,
+	addComment
 };
