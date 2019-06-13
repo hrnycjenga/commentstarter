@@ -19,12 +19,12 @@ const queryMessages = async (projectId) => {
 	let result, client;
 
 	try {
-		console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
+		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 		client = await pool.connect();
 
 		result = await client.query(query);
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
 
 	client.release();
@@ -40,7 +40,7 @@ const queryReplies = async (messageId) => {
 
 		result = await client.query(query);
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
 
 	client.release();
@@ -56,7 +56,7 @@ const queryUserMessages = async (userId) => {
 
 		result = await client.query(query);
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
 
 	client.release();
@@ -73,11 +73,13 @@ const insertMessage = async ({ project_id, parent_id, author_id, created_at, com
 	let result, client;
 
 	try {
+		// console.log(
+		// 	`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} and will attempt to post message: ${comment_body}`
+		// );
 		client = await pool.connect();
-		// console.log(`Connected to database: ${PGHOST}, attempt to post message: ${comment_body}`);
 		result = await client.query(query, [ project_id, parent_id, author_id, created_at, comment_body ]);
 	} catch (err) {
-		return err;
+		return Promise.reject(err);
 	}
 
 	client.release();

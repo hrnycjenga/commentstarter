@@ -3,7 +3,6 @@ const fs = require('fs');
 const path = require('path');
 const Readable = require('stream').Readable;
 const { convertArrayToCSV } = require('convert-array-to-csv');
-const converter = require('convert-array-to-csv');
 
 let count = 0;
 
