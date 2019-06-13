@@ -27,3 +27,6 @@ dist/bundle.js
 /.vscode
 
 .cache
+
+# New relic config
+newrelic_agent.log
