@@ -16,14 +16,12 @@ const pool = new Pool({
 const queryMessages = async (projectId) => {
 	const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
 								WHERE c.project_id = ${projectId}`;
-	let result;
-
 	try {
 		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
 		// client = await pool.connect();
 
 		// result = await client.query(query);
-		result = await pool.query(query);
+		let result = await pool.query(query);
 		return result.rows;
 	} catch (err) {
 		return Promise.reject(err);
@@ -90,5 +88,6 @@ module.exports = {
 	queryMessages,
 	queryReplies,
 	queryUserMessages,
-	insertMessage
+	insertMessage,
+	pool
 };
