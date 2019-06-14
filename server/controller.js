@@ -15,15 +15,16 @@ const getMessages = async (req, res) => {
 
 const getRepliesToComment = (req, res) => {
 	let messageId = req.params.messageId;
-	model
-		.queryReplies(messageId)
-		.then((data) => {
-			res.status(200).json(data);
-		})
-		.catch((err) => {
-			res.status(400).send();
-			console.log(err);
-		});
+	// model
+	// 	.queryReplies(messageId)
+	// 	.then((data) => {
+	// 		res.status(200).json(data);
+	// 	})
+	// 	.catch((err) => {
+	// 		res.status(400).send();
+	// 		console.log(err);
+	// 	});
+	res.status(200).json([ { true: true } ]);
 };
 
 const getUserMessages = (req, res) => {
