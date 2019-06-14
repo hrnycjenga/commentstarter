@@ -14,21 +14,22 @@ const pool = new Pool({
 });
 
 const queryMessages = async (projectId) => {
-	const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
-								WHERE c.project_id = ${projectId}`;
-	let result, client;
+	// const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
+	// 							WHERE c.project_id = ${projectId}`;
+	// let result, client;
 
-	try {
-		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
-		client = await pool.connect();
+	// try {
+	// 	// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
+	// 	client = await pool.connect();
 
-		result = await client.query(query);
-	} catch (err) {
-		return Promise.reject(err);
-	}
+	// 	result = await client.query(query);
+	// } catch (err) {
+	// 	return Promise.reject(err);
+	// }
 
-	client.release();
-	return result.rows;
+	// client.release();
+	// return result.rows;
+	return [ { true: true } ];
 };
 
 const queryReplies = async (messageId) => {
