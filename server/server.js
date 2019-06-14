@@ -35,3 +35,5 @@ app.use('/', router);
 app.listen(port, () => {
 	console.log(`✅ Comments component server listening on port ${port}`);
 });
+
+APPOPTICS_SERVICE_KEY = '7LpX7-IgedkoAUQSocMUS4qVAD8cKL3nGzKKSliWrM-QzhFfuNzUiRSP1a8a0_f60rTVPOE:component-node';
