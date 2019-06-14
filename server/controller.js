@@ -9,7 +9,7 @@ const getMessages = async (req, res) => {
 		res.status(200).json(data);
 	} catch (err) {
 		res.status(400).send();
-		console.log(err);
+		return console.log(err);
 	}
 };
 
@@ -22,7 +22,7 @@ const getRepliesToComment = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(400).send();
-			console.log(err);
+			return console.log(err);
 		});
 };
 
@@ -35,7 +35,7 @@ const getUserMessages = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(400).send();
-			console.log(err);
+			return console.log(err);
 		});
 };
 

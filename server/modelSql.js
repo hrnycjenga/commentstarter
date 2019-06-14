@@ -18,15 +18,11 @@ const queryMessages = async (projectId) => {
 								WHERE c.project_id = ${projectId}`;
 	try {
 		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
-		// client = await pool.connect();
-
-		// result = await client.query(query);
 		let result = await pool.query(query);
 		return result.rows;
 	} catch (err) {
 		return Promise.reject(err);
 	}
-	// return [ { true: true } ];
 };
 
 const queryReplies = async (messageId) => {
@@ -88,6 +84,5 @@ module.exports = {
 	queryMessages,
 	queryReplies,
 	queryUserMessages,
-	insertMessage,
-	pool
+	insertMessage
 };
