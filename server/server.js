@@ -1,8 +1,14 @@
+// try {
+// 	require('newrelic');
+// } catch (err) {
+// 	console.log(err);
+// }
 try {
-	require('newrelic');
+	require('appoptics-apm');
 } catch (err) {
 	console.log(err);
 }
+
 const express = require('express');
 const app = express();
 const path = require('path');
