@@ -17,7 +17,7 @@ const queryMessages = async (projectId) => {
 	const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
 								WHERE c.project_id = ${projectId}`;
 	try {
-		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
+		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} as ${pgUser}`);
 		let result = await pool.query(query);
 		return result.rows;
 	} catch (err) {
