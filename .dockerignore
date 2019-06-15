@@ -4,3 +4,4 @@ Dockerfile
 .dockerignore
 .git
 .gitignore
+newrelic_agent.log

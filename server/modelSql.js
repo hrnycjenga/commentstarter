@@ -16,19 +16,13 @@ const pool = new Pool({
 const queryMessages = async (projectId) => {
 	const query = `SELECT c.*, u.first_name, u.last_name, u.avatar_url, u.email FROM comments c INNER JOIN users u ON c.author_id = u.id
 								WHERE c.project_id = ${projectId}`;
-	let result, client;
-
 	try {
-		console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort}`);
-		client = await pool.connect();
-
-		result = await client.query(query);
+		// console.log(`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} as ${pgUser}`);
+		let result = await pool.query(query);
+		return result.rows;
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
-
-	client.release();
-	return result.rows;
 };
 
 const queryReplies = async (messageId) => {
@@ -40,7 +34,7 @@ const queryReplies = async (messageId) => {
 
 		result = await client.query(query);
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
 
 	client.release();
@@ -56,7 +50,7 @@ const queryUserMessages = async (userId) => {
 
 		result = await client.query(query);
 	} catch (err) {
-		throw err;
+		return Promise.reject(err);
 	}
 
 	client.release();
@@ -73,11 +67,13 @@ const insertMessage = async ({ project_id, parent_id, author_id, created_at, com
 	let result, client;
 
 	try {
+		// console.log(
+		// 	`🚀 Attempt to connect to database ${pgDatabase} at ${pgHost}:${pgPort} and will attempt to post message: ${comment_body}`
+		// );
 		client = await pool.connect();
-		// console.log(`Connected to database: ${PGHOST}, attempt to post message: ${comment_body}`);
 		result = await client.query(query, [ project_id, parent_id, author_id, created_at, comment_body ]);
 	} catch (err) {
-		return err;
+		return Promise.reject(err);
 	}
 
 	client.release();

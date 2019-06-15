@@ -1,18 +1,16 @@
 const path = require('path');
 const model = require(path.resolve(__dirname, 'modelSql.js'));
 
-const getMessages = (req, res) => {
+const getMessages = async (req, res) => {
 	let projectId = req.params.projId;
 
-	model
-		.queryMessages(projectId)
-		.then((data) => {
-			res.status(200).json(data);
-		})
-		.catch((err) => {
-			res.status(400).send();
-			console.log(err);
-		});
+	try {
+		const data = await model.queryMessages(projectId);
+		res.status(200).json(data);
+	} catch (err) {
+		res.status(400).send();
+		return console.log(err);
+	}
 };
 
 const getRepliesToComment = (req, res) => {
@@ -24,7 +22,7 @@ const getRepliesToComment = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(400).send();
-			console.log(err);
+			return console.log(err);
 		});
 };
 
@@ -37,7 +35,7 @@ const getUserMessages = (req, res) => {
 		})
 		.catch((err) => {
 			res.status(400).send();
-			console.log(err);
+			return console.log(err);
 		});
 };
 

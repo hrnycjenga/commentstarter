@@ -1,3 +1,14 @@
+// try {
+// 	require('newrelic');
+// } catch (err) {
+// 	console.log(err);
+// }
+// try {
+// 	require('appoptics-apm');
+// } catch (err) {
+// 	console.log(err);
+// }
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -8,6 +19,9 @@ const port = process.env.PORT || 3011;
 
 app.use(parser.json());
 app.use(cors());
+app.get('/loaderio-56582af744312c30cb867d96e424fafe', (req, res) => {
+	res.sendFile(path.join(__dirname, '../loaderio-56582af744312c30cb867d96e424fafe.txt'));
+});
 app.get('/bundle.js', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/dist/bundle.js'));
 });
