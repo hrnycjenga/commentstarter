@@ -27,6 +27,7 @@ class App extends React.Component {
 		} else {
 			url = `http://localhost:3011/${path}/messages`;
 		}
+		console.log('Output: App -> getComments -> url', url);
 
 		axios
 			.get(url)
@@ -39,7 +40,7 @@ class App extends React.Component {
 	addComment(body) {
 		let url;
 		if (window.location.hostname !== 'localhost') {
-			url = 'http://3.219.86.63/message';
+			url = `http://${window.location.hostname}/message`;
 		} else {
 			url = 'http://localhost:3011/message';
 		}
