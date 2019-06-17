@@ -1,17 +1,19 @@
 const path = require('path');
 const model = require(path.resolve(__dirname, 'modelSql.js'));
 
-const getMessages = async (req, res) => {
-	let projectId = req.params.projId;
+const getMessages = async (ctx) => {
+	let projectId = ctx.params.projId;
 	if (projectId === 'random') {
 		projectId = Math.ceil(Math.random() * 10000000);
 	}
 
 	try {
 		const data = await model.queryMessages(projectId);
-		res.status(200).json(data);
+		ctx.status = 200;
+		ctx.body = { data };
 	} catch (err) {
-		res.status(400).send();
+		ctx.stats = 400;
+
 		return console.log(err);
 	}
 };
