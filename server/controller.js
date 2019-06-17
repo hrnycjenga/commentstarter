@@ -3,6 +3,9 @@ const model = require(path.resolve(__dirname, 'modelSql.js'));
 
 const getMessages = async (req, res) => {
 	let projectId = req.params.projId;
+	if (projectId === 'random') {
+		projectId = Math.ceil(Math.random() * 10000000);
+	}
 
 	try {
 		const data = await model.queryMessages(projectId);
