@@ -17,7 +17,7 @@ fastify.register(require(path.resolve(__dirname, 'router.js')));
 const start = async () => {
 	try {
 		console.log(`✅ Comments component server - fastify - listening on port ${port}`);
-		await fastify.listen(port);
+		await fastify.listen(port, '::');
 	} catch (err) {
 		fastify.log.error(err);
 		process.exit(1);
