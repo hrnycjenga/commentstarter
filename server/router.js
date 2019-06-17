@@ -9,6 +9,9 @@ const redirect = (ctx) => {
 	ctx.redirect('/1');
 };
 
+router.get('/loaderio-56582af744312c30cb867d96e424fafe', async (ctx) => {
+	await send(ctx, 'loaderio-56582af744312c30cb867d96e424fafe.txt', { root: path.join(__dirname, '../') });
+});
 router.get('/bundle.js', async (ctx) => {
 	await send(ctx, 'bundle.js', { root: path.join(__dirname, '../client/dist') });
 });
