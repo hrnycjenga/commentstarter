@@ -39,7 +39,7 @@ class App extends React.Component {
 	addComment(body) {
 		let url;
 		if (window.location.hostname !== 'localhost') {
-			url = 'http://3.219.86.63/message';
+			url = `http://${window.location.hostname}/message`;
 		} else {
 			url = 'http://localhost:3011/message';
 		}
