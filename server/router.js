@@ -2,17 +2,20 @@ const path = require('path');
 const controller = require(path.resolve(__dirname, 'controller.js'));
 const Router = require('koa-router');
 const router = new Router();
+const send = require('koa-send');
+const serve = require('koa-static');
 
 const redirect = (ctx) => {
 	ctx.redirect('/1');
 };
 
-// router.get('/static', serve(path.join(__dirname, '../client/dist/static')));
-
-// router.get('/:projId', async (ctx) => {
-// 	await send(ctx, path.join(__dirname, '../client/dist/index.html'));
-// });
-router.get('/user/:userId', controller.getUserMessages);
+router.get('/bundle.js', async (ctx) => {
+	await send(ctx, 'bundle.js', { root: path.join(__dirname, '../client/dist') });
+});
+router.get('/:projId', async (ctx) => {
+	await send(ctx, 'index.html', { root: path.join(__dirname, '../client/dist') });
+});
+// router.get('/user/:userId', controller.getUserMessages);
 router.get('/:projId/messages', controller.getMessages);
 router.post('/message', controller.addComment);
 router.get('/', redirect);

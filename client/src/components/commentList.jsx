@@ -3,6 +3,7 @@ import TopLevelComment from './TopLevelComment.jsx';
 import { Segment, Dimmer, Loader } from 'semantic-ui-react';
 
 var CommentList = ({ comments, project, addComment }) => {
+	console.log('Output: CommentList -> comments', comments);
 	const topLevelComments = comments.filter((comment) => comment.parent_id === 0).sort((a, b) => {
 		return new Date(a.created_at) - new Date(b.created_at);
 	});

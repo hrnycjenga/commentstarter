@@ -10,7 +10,7 @@ const getMessages = async (ctx) => {
 	try {
 		const data = await model.queryMessages(projectId);
 		ctx.status = 200;
-		ctx.body = { data };
+		ctx.body = data;
 	} catch (err) {
 		ctx.stats = 400;
 
