@@ -9,7 +9,7 @@ const getMessages = async (req, res) => {
 
 	try {
 		const data = await model.queryMessages(projectId);
-		res.status(200).json(data);
+		res.status(200).send(data);
 	} catch (err) {
 		res.status(400).send();
 		return console.log(err);

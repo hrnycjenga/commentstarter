@@ -1,26 +1,27 @@
-const express = require('express');
-const app = express();
+const fastify = require('fastify')();
 const path = require('path');
-const parser = require('body-parser');
-const router = require(path.resolve(__dirname, 'router.js'));
-const cors = require('cors');
 const port = process.env.PORT || 3011;
 
-app.use(parser.json());
-app.use(cors());
-app.get('/loaderio-56582af744312c30cb867d96e424fafe', (req, res) => {
-	res.sendFile(path.join(__dirname, '../loaderio-56582af744312c30cb867d96e424fafe.txt'));
+fastify.register(require('fastify-cors'));
+fastify.register(require('fastify-static'), {
+	root: path.join(__dirname, '../client/dist/static'),
+	prefix: '/static/',
+	decorateReply: false
 });
-app.get('/bundle.js', (req, res) => {
-	res.sendFile(path.join(__dirname, '../client/dist/bundle.js'));
+fastify.register(require('fastify-static'), {
+	root: path.join(__dirname, '../client/dist/'),
+	prefix: '/'
 });
-app.get('/:projId', (req, res) => {
-	res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-});
-app.use('/static', express.static(path.join(__dirname, '../client/dist/static')));
+fastify.register(require(path.resolve(__dirname, 'router.js')));
 
-app.use('/', router);
+const start = async () => {
+	try {
+		console.log(`✅ Comments component server - fastify - listening on port ${port}`);
+		await fastify.listen(port);
+	} catch (err) {
+		fastify.log.error(err);
+		process.exit(1);
+	}
+};
 
-app.listen(port, () => {
-	console.log(`✅ Comments component server listening on port ${port}`);
-});
+start();
