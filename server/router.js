@@ -8,7 +8,7 @@ const redirect = (req, res) => {
 };
 
 async function routes(fastify, options) {
-	fastify.get('/loaderio-56582af744312c30cb867d96e424fafe', (req, res) => {
+	fastify.get('/loaderio-56582af744312c30cb867d96e424fafe/', (req, res) => {
 		res.sendFile('loaderio-56582af744312c30cb867d96e424fafe.txt');
 	});
 	fastify.get('/bundle.js', (req, res) => {
