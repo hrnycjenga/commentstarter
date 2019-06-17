@@ -1,13 +1,8 @@
-// try {
-// 	require('newrelic');
-// } catch (err) {
-// 	console.log(err);
-// }
-// try {
-// 	require('appoptics-apm');
-// } catch (err) {
-// 	console.log(err);
-// }
+try {
+	require('appmetrics-dash').monitor();
+} catch (err) {
+	console.log(`Error with AppMetrics: ${err}`);
+}
 
 const express = require('express');
 const app = express();
