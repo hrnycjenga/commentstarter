@@ -8,8 +8,11 @@ const port = process.env.PORT || 3011;
 
 app.use(parser.json());
 app.use(cors());
-app.get('/loaderio-56582af744312c30cb867d96e424fafe', (req, res) => {
-	res.sendFile(path.join(__dirname, '../loaderio-56582af744312c30cb867d96e424fafe.txt'));
+app.get('/loaderio-b7eb5c67a947712e79e639c63b547f3b/', (req, res) => {
+	res.sendFile(path.join(__dirname, '..client/dist/loaderio-b7eb5c67a947712e79e639c63b547f3b.txt'));
+});
+app.get('/loaderio-f07096fe3a1bada2f68910dc5d8eb2a4/', (req, res) => {
+	res.sendFile(path.join(__dirname, '..client/dist/loaderio-f07096fe3a1bada2f68910dc5d8eb2a4.txt'));
 });
 app.get('/bundle.js', (req, res) => {
 	res.sendFile(path.join(__dirname, '../client/dist/bundle.js'));
