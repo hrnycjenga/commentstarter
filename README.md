@@ -24,19 +24,19 @@
 
 ## Overview
 
-####Client Interface:
+#### Client Interface:
 
 ![interface](screenshots/interface.gif)
 
-####Stress tests:
+#### Stress tests:
 - Database server hosted on a single EC2 t3.2xlarge
   - 70mm `comments` records (spread between 10mm projects), 20mm `users` records
 - Node.js component server hosted on a single EC2 t2.micro
 - Each request is a `GET` request for a random API endpoint (a project with `id` between `1` and `1,000,000`)
   - Each response requires a `SELECT... INNER JOIN` between the `comments` and `users` tables
-#####1k Requests Per Second Over 60 Seconds (0% Error Rate)
+##### 1k Requests Per Second Over 60 Seconds (0% Error Rate)
 ![1000 RPS](screenshots/1000rps.jpg)
-#####3k Requests Per Second Over 60 Seconds (0% Error Rate)
+##### 3k Requests Per Second Over 60 Seconds (0% Error Rate)
 ![3000 RPS](screenshots/3000rps.jpg)
 
 ## Requirements
@@ -49,14 +49,14 @@
 
 ## Usage
 
-####Server
+#### Server
 > 1. Install dependencies with `npm install`
 > 1. Initialize database as per [README](db/seed/README.md) in the `db/seed` folder
 > 1. The main server file is `server/index.js`
 > -- If nodemon is already installed globally (it is not part of the dependencies), you may start the server via `npm run server-dev`
 > -- The server uses port 3011 by default, but you may set it using an environment variable `process.env.PORT`
 
-####Client
+#### Client
 > The client side is built using webpack:
 >> `npm run dev`: Builds the client-side files in development mode and does not do full bundling. This also activates watch mode by default so it rebuilds whenever you make and save changes
 >
@@ -64,7 +64,7 @@
 
 ## Environment-Variables
 
-#####The following environment variables must be provided to the Node.js/Fastify server
+##### The following environment variables must be provided to the Node.js/Fastify server
 > - `PORT`: Port used by the HTTP server; defaults to `3011` 
 > - `PGHOST`: PostgreSQL host address 
 > - `PGPORT`: PostgreSQL port 
