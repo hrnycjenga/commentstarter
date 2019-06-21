@@ -11,7 +11,16 @@ const renderComponent = () => {
 		ReactDOM.render(<App />, document.getElementById('commentRoot'));
 	} else {
 		// If served on a proxy, render component to a div specifically for containing this component
-		ReactDOM.render(<App />, document.getElementById('com'));
+		const shadowHost = document.getElementById('com');
+		while (shadowHost.firstChild) {
+			shadowHost.removeChild(shadowHost.firstChild);
+		}
+		const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+		const shadowComment = document.createElement('div');
+		shadowComment.setAttribute('id', 'comment-shadow');
+		shadowRoot.appendChild(shadowComment);
+
+		ReactDOM.render(<App />, document.getElementById('comment-shadow'));
 	}
 };
 
