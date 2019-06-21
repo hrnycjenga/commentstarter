@@ -27,7 +27,7 @@ module.exports = {
 							insertInto: function() {
 								if (document.getElementById('com') !== null) {
 									console.log('ShadowDOM found, injecting CSS into shadowDOM');
-									return document.getElementById('com').shadowRoot;
+									return document.getElementById('com');
 								} else {
 									return document.head;
 								}
