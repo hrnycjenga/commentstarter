@@ -1,6 +1,7 @@
 var path = require('path');
 var SRC_DIR = path.resolve(__dirname, 'client/src');
 var DIST_DIR = path.resolve(__dirname, 'client/dist');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
 	entry: `${SRC_DIR}/index.jsx`,
@@ -8,6 +9,12 @@ module.exports = {
 		filename: 'bundle.js',
 		path: DIST_DIR
 	},
+	plugins: [
+		new MiniCssExtractPlugin({
+			filename: 'commentStyle.style',
+			chunkFilename: '[id].style'
+		})
+	],
 	module: {
 		rules: [
 			{
@@ -24,19 +31,28 @@ module.exports = {
 					{
 						loader: require.resolve('style-loader'),
 						options: {
-							insertInto: function() {
-								if (document.getElementById('com') !== null) {
-									console.log('ShadowDOM found, injecting CSS into shadowDOM');
-									return document.getElementById('com');
-								} else {
-									return document.head;
-								}
-							}
+							transform: './conditional.js'
 						}
 					},
 					'css-loader'
 				]
 			},
+			{
+				test: /\.style$/i,
+				use: 'raw-loader'
+			},
+			// {
+			//   test: /\.(css)$/,
+			//   use: [
+			//     {
+			//       loader: MiniCssExtractPlugin.loader,
+			//       options: {
+			//         publicPath: '../',
+			//       },
+			//     },
+			//     'css-loader',
+			//   ],
+			// },
 			{
 				test: [ /\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/ ],
 				loader: require.resolve('url-loader'),

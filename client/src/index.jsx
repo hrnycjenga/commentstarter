@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import 'semantic-ui-css/semantic.min.css';
+import shadowCSS from './commentStyle.style';
 
 const renderComponent = () => {
 	const componentIps = [ '3.219.86.63', '3.219.128.144', '3.94.138.41', 'localhost' ];
@@ -23,6 +24,12 @@ const renderComponent = () => {
 		// Create div element for react to render into
 		const reactRoot = document.createElement('div');
 		reactRoot.setAttribute('id', 'react-root');
+
+		const style = document.createElement('style');
+		style.type = 'text/css';
+		style.appendChild(document.createTextNode(shadowCSS));
+
+		shadowRoot.appendChild(style);
 
 		// Append react root to shadow root
 		shadowRoot.appendChild(reactRoot);
