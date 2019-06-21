@@ -10,6 +10,7 @@ const renderComponent = () => {
 	if (componentIps.includes(hostName)) {
 		ReactDOM.render(<App />, document.getElementById('commentRoot'));
 	} else {
+		console.log('Proxy server detected, rendering to shadowDOM');
 		// If served on a proxy, render component to a div specifically for containing this component
 		const shadowHost = document.getElementById('com');
 		while (shadowHost.firstChild) {
