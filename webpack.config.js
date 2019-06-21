@@ -25,7 +25,8 @@ module.exports = {
 						loader: require.resolve('style-loader'),
 						options: {
 							insertInto: function() {
-								if (document.getElementById('com')) {
+								if (document.getElementById('com') !== null) {
+									console.log('ShadowDOM found, injecting CSS into shadowDOM');
 									return document.getElementById('com').shadowRoot;
 								} else {
 									return document.head;

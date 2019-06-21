@@ -29,7 +29,7 @@ class App extends React.Component {
 		} else if (hostName === 'localhost') {
 			url = `http://localhost:3011/${path}/messages`;
 		} else {
-			url = `http://3.219.86.63/${path}/messages`;
+			url = `http://${componentIps[0]}/${path}/messages`;
 		}
 
 		axios
