@@ -20,22 +20,20 @@ module.exports = {
 			},
 			{
 				test: /\.(css)$/,
-				use: [ 'style-loader', 'css-loader' ]
-			},
-			{
-				test: /\.css$/,
 				use: [
 					{
 						loader: require.resolve('style-loader'),
 						options: {
 							insertInto: function() {
-								var elementExists = document.getElementById('com');
-								if (elementExists) {
+								if (document.getElementById('com')) {
 									return document.getElementById('com').shadowRoot;
+								} else {
+									return document.head;
 								}
 							}
 						}
-					}
+					},
+					'css-loader'
 				]
 			},
 			{
