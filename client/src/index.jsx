@@ -15,12 +15,18 @@ const renderComponent = () => {
 		while (shadowHost.firstChild) {
 			shadowHost.removeChild(shadowHost.firstChild);
 		}
-		const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
-		const shadowComment = document.createElement('div');
-		shadowComment.setAttribute('id', 'comment-shadow');
-		shadowRoot.appendChild(shadowComment);
+		shadowHost.attachShadow({ mode: 'open' });
 
-		ReactDOM.render(<App />, document.getElementById('comment-shadow'));
+		// Get the shadow root
+		const shadowRoot = document.getElementById('com').shadowRoot;
+		// Create div element for react to render into
+		const reactRoot = document.createElement('div');
+		reactRoot.setAttribute('id', 'react-root');
+
+		// Append react root to shadow root
+		shadowRoot.appendChild(reactRoot);
+
+		ReactDOM.render(<App />, reactRoot);
 	}
 };
 
