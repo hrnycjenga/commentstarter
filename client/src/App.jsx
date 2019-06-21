@@ -22,10 +22,14 @@ class App extends React.Component {
 	getComments() {
 		let url;
 		const path = window.location.pathname.replace(/\//g, '');
-		if (window.location.hostname !== 'localhost') {
-			url = `http://${window.location.hostname}/${path}/messages`;
-		} else {
+		const componentIps = [ '3.219.86.63', '3.219.128.144', '3.94.138.41' ];
+		const hostName = window.location.hostname;
+		if (componentIps.includes(hostName)) {
+			url = `http://${hostName}/${path}/messages`;
+		} else if (hostName === 'localhost') {
 			url = `http://localhost:3011/${path}/messages`;
+		} else {
+			url = `http://${componentIps[0]}/${path}/messages`;
 		}
 
 		axios
