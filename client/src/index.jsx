@@ -14,3 +14,5 @@ const renderComponent = () => {
 		ReactDOM.render(<App />, document.getElementById('com'));
 	}
 };
+
+renderComponent();
