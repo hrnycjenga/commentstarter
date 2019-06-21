@@ -23,6 +23,22 @@ module.exports = {
 				use: [ 'style-loader', 'css-loader' ]
 			},
 			{
+				test: /\.css$/,
+				use: [
+					{
+						loader: require.resolve('style-loader'),
+						options: {
+							insertInto: function() {
+								var elementExists = document.getElementById('com');
+								if (elementExists) {
+									return document.getElementById('com').shadowRoot;
+								}
+							}
+						}
+					}
+				]
+			},
+			{
 				test: [ /\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/ ],
 				loader: require.resolve('url-loader'),
 				options: {
