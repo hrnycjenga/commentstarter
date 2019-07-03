@@ -1,10 +1,13 @@
 # CommentStarter
 
-*CommentStarter* is a scalable, clean user comment system designed for handling a large user base and optimized for speed. The project is an evolution of a [legacy commentary system](https://github.com/hr-team-jacob/comments-service) that sought to replicate Kickstarter's user comment system. CommentStarter builds on the legacy project by introducing a number of improvements:
+![logos](screenshots/logos.png)
+![interface](screenshots/interface.gif)
+
+*CommentStarter* is a project designed to experiment with back-end optimization with the goal of handling a high number of concurrent requests to a relatively large database. The project is an evolution of a legacy system that sought to replicate Kickstarter's user comment system. CommentStarter builds on the legacy project by introducing a number of improvements:
 - 🚀 Transition from SQLite to a robust, more scalable database: `PostgreSQL`
 - 👍 Server and client enhancements to handle extreme bursts in concurrent requests
   - HTTP server provided by [`Fastify`](https://www.fastify.io/) instead of `Express` for improved routing speed of API endpoints
-  - Completely revamped client-side code that behaves well when positioned behind a load balancer such as `nginx`
+  - Revamped client-side code that behaves well when positioned behind a load balancer such as `nginx`
 - 🎯 Database schema improvements
   - Appropriate indexing based on most commonly requested endpoints
   - Separation of `user` and `comments` data into their own tables
@@ -23,10 +26,6 @@
 1. [Environment-Variables](#environment-variables)
 
 ## Overview
-
-#### Client Interface:
-
-![interface](screenshots/interface.gif)
 
 #### Stress tests:
 - Database server hosted on a single EC2 t3.2xlarge
